@@ -1,7 +1,7 @@
 use proc_macro2::TokenStream;
-use syn::DeriveInput;
 use quote::quote;
-pub fn process_enum_from(input:DeriveInput) ->TokenStream {
+use syn::DeriveInput;
+pub fn process_enum_from(input: DeriveInput) -> TokenStream {
     // println!("{:#?}", input);
     // 获取要处理的枚举类型的具体名称 enum Direction 这个Direction
     let ident = input.ident;
@@ -52,5 +52,4 @@ pub fn process_enum_from(input:DeriveInput) ->TokenStream {
     quote! {
         #(#from_impls)*
     }
-    .into()
 }
