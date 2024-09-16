@@ -2,8 +2,8 @@ use macros::EnumFrom;
 
 #[allow(unused)]
 #[derive(Debug, EnumFrom)]
-enum Direction {
-    Up(DirectionUp),
+enum Direction<T> {
+    Up(DirectionUp<T>),
     Down,
     Left(u32),
     Right { a: u32 },
@@ -11,21 +11,21 @@ enum Direction {
 
 #[allow(unused)]
 #[derive(Debug)]
-struct DirectionUp {
-    speed: u32,
+struct DirectionUp<T> {
+    speed: T,
 }
 
 fn main() {
     // 将一个值转换成枚举类型，使用into()方法前提是要实现From trait
     let up = DirectionUp::new(42);
 
-    let up: Direction = up.into();
-    let left: Direction = 10.into();
+    let up: Direction<i32> = up.into();
+    let left: Direction<i32> = 10.into();
     println!("{:?}, {:?}", up, left);
 }
 
-impl DirectionUp {
-    fn new(speed: u32) -> Self {
+impl<T> DirectionUp<T> {
+    fn new(speed: T) -> Self {
         Self { speed }
     }
 }

@@ -16,6 +16,8 @@ pub fn derive_enum_from(input: TokenStream) -> TokenStream {
         syn::Data::Enum(data) => data.variants,
         _ => panic!("EnumFrom only works on enums"),
     };
+    // 泛型参数
+    let generics = input.generics;
     // println!("{:#?}", variants);
     // 匹配枚举类型的所有变体，为不同的变体生成不同的实现
     let from_impls = variants.iter().map(|variant| {
@@ -33,7 +35,8 @@ pub fn derive_enum_from(input: TokenStream) -> TokenStream {
                     let ty = &field.ty;
                     // 生成代码
                     quote! {
-                        impl From<#ty> for #ident {
+                        // 添加泛型支持
+                        impl #generics From<#ty> for #ident #generics {
                             fn from(v: #ty) -> Self {
                                 #ident::#var(v)
                             }
