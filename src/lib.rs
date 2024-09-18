@@ -1,6 +1,10 @@
+mod auto_debug;
+mod auto_deref;
 mod enum_macro;
 mod enum_macro_daring;
 
+use auto_debug::process_auto_debug;
+use auto_deref::process_auto_deref;
 use enum_macro::process_enum_from;
 use enum_macro_daring::process_enum_from_darling;
 // proc-macro
@@ -21,4 +25,18 @@ pub fn derive_enum_from_darling(input: TokenStream) -> TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
 
     process_enum_from_darling(input).into()
+}
+
+#[proc_macro_derive(AutoDeref, attributes(deref))]
+pub fn derive_auto_deref(input: TokenStream) -> TokenStream {
+    let input = syn::parse_macro_input!(input as syn::DeriveInput);
+
+    process_auto_deref(input).into()
+}
+
+#[proc_macro_derive(AutoDebug, attributes(debug))]
+pub fn derive_auto_debug(input: TokenStream) -> TokenStream {
+    let input = syn::parse_macro_input!(input as syn::DeriveInput);
+
+    process_auto_debug(input).into()
 }
